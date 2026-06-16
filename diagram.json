@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "author": "Nexora Perimetric Safety",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-buzzer", "id": "alert_buzzer", "top": 213.6, "left": -190.2, "attrs": {} },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "mq2_sensor",
+      "top": -120,
+      "left": -150,
+      "attrs": { "label": "MQ2 Gas (PPM)" }
+    },
+    { "type": "wokwi-servo", "id": "valve_servo", "top": 122.8, "left": 192, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "alert_led",
+      "top": -61.2,
+      "left": 205.4,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r220",
+      "top": -53.35,
+      "left": 65.8,
+      "rotate": 180,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:D27", "alert_buzzer:1", "purple", [ "h-206.6", "v186.8" ] ],
+    [ "esp:GND.2", "alert_buzzer:2", "black", [ "h-91.4", "v148.6" ] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.1", "mq2_sensor:GND", "black", [ "h13.9", "v-168.2", "h-236.2" ] ],
+    [ "esp:3V3", "mq2_sensor:VCC", "red", [] ],
+    [ "esp:D34", "mq2_sensor:SIG", "green", [] ],
+    [ "esp:GND.2", "valve_servo:GND", "black", [ "h-24.2", "v62.2", "h172.8", "v-38.4" ] ],
+    [ "esp:5V", "valve_servo:VCC", "red", [] ],
+    [ "esp:D18", "valve_servo:PWM", "orange", [ "h33.1", "v107.3" ] ],
+    [ "esp:D26", "alert_led:A", "red", [] ],
+    [ "alert_led:C", "r220:1", "black", [ "h-66.8", "v44.85" ] ],
+    [ "r220:2", "esp:GND.2", "black", [ "h-104.4", "v197" ] ]
+  ],
+  "dependencies": {}
+}
