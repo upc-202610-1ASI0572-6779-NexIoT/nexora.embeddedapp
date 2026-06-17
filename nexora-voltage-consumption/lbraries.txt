@@ -1,0 +1,9 @@
+# Wokwi Library List
+# See https://docs.wokwi.com/guides/libraries
+
+ArduinoJson
+PubSubClient
+DHT sensor library
+ESP32Servo
+LiquidCrystal_I2C
+ModestIoT@wokwi:cf3b377520637d396b451edb39e21f8a3b80dd12

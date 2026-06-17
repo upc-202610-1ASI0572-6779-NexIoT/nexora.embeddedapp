@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "author": "Nexora Perimetric Safety",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp32",
+      "top": -3.5,
+      "left": -33.1,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "sensor_corriente",
+      "top": -154.9,
+      "left": -134.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "sensor_voltaje",
+      "top": 40,
+      "left": -180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_carga",
+      "top": -61.2,
+      "left": 291.8,
+      "attrs": {
+        "color": "green",
+        "label": "Luz Gestionada"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_averia",
+      "top": 25.2,
+      "left": 147.8,
+      "attrs": {
+        "color": "red",
+        "label": "Alerta Averia"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -24.85,
+      "left": 182.4,
+      "attrs": {
+        "value": "330"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 61.55,
+      "left": 201.6,
+      "attrs": {
+        "value": "330"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "sensor_corriente:GND",
+      "esp32:GND.2",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sensor_corriente:VCC",
+      "esp32:3V3",
+      "red",
+      [
+        "h210.4",
+        "v241.4"
+      ]
+    ],
+    [
+      "sensor_corriente:SIG",
+      "esp32:D34",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sensor_voltaje:1",
+      "esp32:GND.2",
+      "black",
+      [
+        "v89.2",
+        "h145.4"
+      ]
+    ],
+    [
+      "sensor_voltaje:2",
+      "esp32:D12",
+      "orange",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led_carga:A",
+      "esp32:D25",
+      "blue",
+      [
+        "v48",
+        "h-228.2",
+        "v-48",
+        "h-136.6",
+        "v107"
+      ]
+    ],
+    [
+      "led_carga:C",
+      "r1:2",
+      "black",
+      [
+        "h88.2",
+        "v57.6"
+      ]
+    ],
+    [
+      "r1:1",
+      "esp32:GND.1",
+      "black",
+      [
+        "h-86.4",
+        "v164.7"
+      ]
+    ],
+    [
+      "led_averia:A",
+      "esp32:D26",
+      "purple",
+      [
+        "v-105.6",
+        "h-249.2",
+        "v145.5"
+      ]
+    ],
+    [
+      "led_averia:C",
+      "r2:1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "r2:2",
+      "esp32:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
