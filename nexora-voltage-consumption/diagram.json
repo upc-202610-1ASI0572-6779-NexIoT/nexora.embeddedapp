@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "author": "Nexora Perimetric Safety",
+  "author": "Kevin Castañeda",
   "editor": "wokwi",
   "parts": [
     {
@@ -63,105 +63,35 @@
       }
     }
   ],
+
   "connections": [
-    [
-      "sensor_corriente:GND",
-      "esp32:GND.2",
-      "black",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "sensor_corriente:VCC",
-      "esp32:3V3",
-      "red",
-      [
-        "h210.4",
-        "v241.4"
-      ]
-    ],
-    [
-      "sensor_corriente:SIG",
-      "esp32:D34",
-      "green",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "sensor_voltaje:1",
-      "esp32:GND.2",
-      "black",
-      [
-        "v89.2",
-        "h145.4"
-      ]
-    ],
-    [
-      "sensor_voltaje:2",
-      "esp32:D12",
-      "orange",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "led_carga:A",
-      "esp32:D25",
-      "blue",
-      [
-        "v48",
-        "h-228.2",
-        "v-48",
-        "h-136.6",
-        "v107"
-      ]
-    ],
-    [
-      "led_carga:C",
-      "r1:2",
-      "black",
-      [
-        "h88.2",
-        "v57.6"
-      ]
-    ],
-    [
-      "r1:1",
-      "esp32:GND.1",
-      "black",
-      [
-        "h-86.4",
-        "v164.7"
-      ]
-    ],
-    [
-      "led_averia:A",
-      "esp32:D26",
-      "purple",
-      [
-        "v-105.6",
-        "h-249.2",
-        "v145.5"
-      ]
-    ],
-    [
-      "led_averia:C",
-      "r2:1",
-      "black",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "r2:2",
-      "esp32:GND.1",
-      "black",
-      [
-        "v0"
-      ]
-    ]
+
+    [ "esp32:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp32:RX0", "$serialMonitor:TX", "", [] ],
+
+    [ "sensor_corriente:GND", "esp32:GND.2", "black", [ "v0" ] ],
+    [ "sensor_corriente:VCC", "esp32:3V3", "red", [ "h210.4", "v241.4" ] ],
+    [ "sensor_corriente:SIG", "esp32:D34", "green", [ "v0" ] ],
+
+    [ "sensor_voltaje:1", "esp32:GND.2", "black", [ "v89.2", "h145.4" ] ],
+    [ "sensor_voltaje:2", "esp32:D14", "orange", [ "v0" ] ],
+
+    [ "led_carga:A", "esp32:D25", "blue",
+      [ "v48", "h-228.2", "v-48", "h-136.6", "v107" ] ],
+
+    [ "led_carga:C", "r1:2", "black", [ "h88.2", "v57.6" ] ],
+    [ "r1:1", "esp32:GND.1", "black", [ "h-86.4", "v164.7" ] ],
+
+    [ "led_averia:A", "esp32:D26", "purple",
+      [ "v-105.6", "h-249.2", "v145.5" ] ],
+
+    [ "led_averia:C", "r2:1", "black", [ "v0" ] ],
+    [ "r2:2", "esp32:GND.1", "black", [ "v0" ] ]
   ],
-  "dependencies": {}
+
+  "dependencies": {},
+
+  "serialMonitor": {
+    "display": "always"
+  }
 }
