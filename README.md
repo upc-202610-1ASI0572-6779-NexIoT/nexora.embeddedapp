@@ -8,9 +8,9 @@ Todos los módulos utilizan el microcontrolador ESP32 y se estructuran siguiendo
 
 El proyecto está dividido en carpetas independientes para cumplir con las especificaciones de Arduino IDE y mantener la modularidad:
 
-*   📂 **[nexora-gas-safety/](file:///c:/Users/REYNALDO/Documents/GitHub/iot/nexora.embeddedapp/nexora-gas-safety/)**: Sistema de monitoreo de fugas de gas con válvula servo-actuada y alertas sonoras. Lee más detalles en su [README local](file:///c:/Users/REYNALDO/Documents/GitHub/iot/nexora.embeddedapp/nexora-gas-safety/README.md).
-*   📂 **[nexora-voltage-consumption/](file:///c:/Users/REYNALDO/Documents/GitHub/iot/nexora.embeddedapp/nexora-voltage-consumption/)**: Sistema de monitoreo de consumo eléctrico (Amperaje) y estado de la red (Voltaje) con protección contra sobrecargas. Lee más detalles en su [README local](file:///c:/Users/REYNALDO/Documents/GitHub/iot/nexora.embeddedapp/nexora-voltage-consumption/README.md).
-*   📂 **[nexora-water-consumption/](file:///c:/Users/REYNALDO/Documents/GitHub/iot/nexora.embeddedapp/nexora-water-consumption/)**: Módulo para monitoreo de caudal y control de consumo de agua (por implementar).
+*   📂 **nexora-gas-safety**: Sistema de monitoreo de fugas de gas con válvula servo-actuada y alertas sonoras. 
+*   📂 **nexora-voltage-consumption**: Sistema de monitoreo de consumo eléctrico (Amperaje) y estado de la red (Voltaje) con protección contra sobrecargas. 
+*   📂 **nexora-water-consumption**: Módulo para monitoreo de caudal y control de consumo de agua (por implementar).
 
 ---
 
