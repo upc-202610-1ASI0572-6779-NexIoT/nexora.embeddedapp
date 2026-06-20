@@ -1,8 +1,64 @@
 {
   "version": 1,
-  "author": "Uri",
+  "author": "Kevin Castañeda",
   "editor": "wokwi",
-  "parts": [],
-  "connections": [],
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp32", "top": -3.5, "left": -33.1, "attrs": {} },
+    {
+      "type": "chip-water-flow-sensor",
+      "id": "sensor_agua",
+      "top": -162.18,
+      "left": -148.8,
+      "attrs": { "flowRate": "8" }
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "sensor_suministro_agua",
+      "top": 42.8,
+      "left": -179.3,
+      "attrs": { "label": "Suministro Agua" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_flujo_normal",
+      "top": -61.2,
+      "left": 291.8,
+      "attrs": { "color": "green", "label": "Flujo Normal" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_fuga",
+      "top": 25.2,
+      "left": 147.8,
+      "attrs": { "color": "red", "label": "Alerta Fuga" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -24.85,
+      "left": 182.4,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 61.55,
+      "left": 201.6,
+      "attrs": { "value": "330" }
+    }
+  ],
+  "connections": [
+    [ "sensor_agua:GND", "esp32:GND.2", "black", [ "v0" ] ],
+    [ "sensor_agua:VCC", "esp32:3V3", "red", [ "h210.4", "v241.4" ] ],
+    [ "sensor_agua:OUT", "esp32:D34", "green", [ "v0" ] ],
+    [ "sensor_suministro_agua:1", "esp32:GND.2", "black", [ "v89.2", "h145.4" ] ],
+    [ "sensor_suministro_agua:2", "esp32:D12", "orange", [ "v0" ] ],
+    [ "led_flujo_normal:A", "esp32:D25", "blue", [ "v48", "h-228.2", "v-48", "h-136.6", "v107" ] ],
+    [ "led_flujo_normal:C", "r1:2", "black", [ "h88.2", "v57.6" ] ],
+    [ "r1:1", "esp32:GND.1", "black", [ "h-86.4", "v164.7" ] ],
+    [ "led_fuga:A", "esp32:D26", "purple", [ "v-105.6", "h-249.2", "v145.5" ] ],
+    [ "led_fuga:C", "r2:1", "black", [ "v0" ] ],
+    [ "r2:2", "esp32:GND.1", "black", [ "v0" ] ]
+  ],
   "dependencies": {}
 }
