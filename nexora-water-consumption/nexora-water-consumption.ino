@@ -8,6 +8,33 @@
 #include <ArduinoJson.h>
 #include <ModestIoT.h>
 #include <math.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <WiFiClientSecure.h>
+
+// --- CONFIGURACIÓN DE RED Y EDGE SERVICE ---
+const char* WIFI_SSID     = "Wokwi-GUEST";
+const char* WIFI_PASSWORD = "";
+// Debe apuntar al túnel/edge activo (mismo edge que los demás dispositivos).
+const char* EDGE_URL      = "https://better-clubs-march.loca.lt/api/v1/monitoring/telemetry";
+const char* DEVICE_ID     = "water-safety-unit-apt-402";
+const char* APARTMENT_ID  = "Apt-402";
+
+void setup_wifi() {
+    delay(10);
+    Serial.print("\n[WiFi] Conectando a ");
+    Serial.println(WIFI_SSID);
+
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    Serial.println("\n[WiFi] Conexión establecida.");
+    Serial.print("[WiFi] IP: ");
+    Serial.println(WiFi.localIP());
+}
 
 // --- 1. CLASES DE SENSORES PERSONALIZADOS ---
 
@@ -121,6 +148,13 @@ public:
         : flowLpm(flow), flowDeltaLpm(delta), supplyActive(supply), anomaly(anom) {}
 
     void serialize(JsonDocument& serializationDestination) const override {
+        // Campos que consume el Edge Service (contrato unificado).
+        serializationDestination["device_id"] = DEVICE_ID;
+        serializationDestination["apartment_id"] = APARTMENT_ID;
+        serializationDestination["water_flow"] = flowLpm;   // L/min
+        serializationDestination["voltaje_ok"] = true;       // el medidor de agua no evalúa la red
+
+        // Campos descriptivos adicionales del dominio de agua.
         serializationDestination["flujo_L_min"] = flowLpm;
         serializationDestination["cambio_flujo_L_min"] = flowDeltaLpm;
         serializationDestination["suministro_activo"] = supplyActive;
@@ -227,6 +261,8 @@ protected:
      * @brief Procesa la telemetría en segundo plano simulando envío a una pasarela IoT.
      */
     void processQueuedTelemetryData(const TelemetryPackage* rawQueueItemPayload) override {
+        if (rawQueueItemPayload == nullptr) return;
+
         const WaterTelemetry* telemetry = static_cast<const WaterTelemetry*>(rawQueueItemPayload);
 
         JsonDocument doc;
@@ -236,6 +272,26 @@ protected:
         serializeJson(doc, jsonString);
 
         Serial.printf("[TELEMETRÍA] Dispatcher asíncrono enviando: %s\n", jsonString.c_str());
+
+        if (WiFi.status() != WL_CONNECTED) {
+            Serial.println("[ERROR] WiFi no conectado. Registro conservado localmente.");
+            return;
+        }
+
+        // Plain HTTP transport: the local edge (http://host.wokwi.internal:5050)
+        // is not TLS, so a secure client would cause a "Bad request version" error.
+        WiFiClient client;
+        client.setInsecure();
+
+        HTTPClient http;
+        http.begin(client, EDGE_URL);
+        http.addHeader("Content-Type", "application/json");
+        http.addHeader("X-API-Key", "test-api-key-123");
+        http.addHeader("Bypass-Tunnel-Reminder", "true");
+
+        int httpResponseCode = http.POST(jsonString);
+        Serial.printf("[EDGE] Código HTTP: %d\n", httpResponseCode);
+        http.end();
     }
 
 public:
@@ -293,6 +349,8 @@ void setup() {
     delay(1000);
 
     Serial.println(F("[Sistema] Iniciando monitor IoT de consumo de agua y detección de fugas..."));
+
+    setup_wifi();
 
     waterMonitor = new WaterMonitorDevice(
         PIN_SENSOR_FLUJO_AGUA,
